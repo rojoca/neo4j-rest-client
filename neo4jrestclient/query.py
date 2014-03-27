@@ -485,7 +485,7 @@ class QueryTransaction(object):
         message = u""
         if errors:
             for error in errors:
-                message = u"{}\n{}:\n{}\n".format(
+                message = u"{0}\n{1}:\n{2}\n".format(
                     message, error["code"], error["message"]
                 )
             raise TransactionException(200, message)
@@ -579,7 +579,7 @@ class QueryTransaction(object):
         if self.url_commit:
             url = self.url_commit
         else:
-            url = u"{}/commit".format(self.url_begin)
+            url = u"{0}/commit".format(self.url_begin)
         results = self._execute(url, results=True)
         self.finished = True
         return results
@@ -612,7 +612,7 @@ class FilterSequence(QuerySequence):
             if not isinstance(matches, (list, tuple)):
                 matches = [matches]
             match = u", ".join(matches)
-            q = u"{} match {}".format(q, match)
+            q = u"{0} match {1}".format(q, match)
         where = None
         params = {}
         if lookups:
@@ -625,9 +625,9 @@ class FilterSequence(QuerySequence):
             where, params = wheres.get_query_objects(var="n",
                                                      version=self.version)
         if where:
-            q = u"{} where {} return n ".format(q, where)
+            q = u"{0} where {1} return n ".format(q, where)
         else:
-            q = u"{} return n ".format(q)
+            q = u"{0} return n ".format(q)
         super(FilterSequence, self).__init__(cypher=cypher, auth=auth, q=q,
                                              params=params, types=types,
                                              returns=returns, lazy=True)

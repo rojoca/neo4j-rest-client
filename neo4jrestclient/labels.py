@@ -20,7 +20,7 @@ class Label(object):
         # Check URLs like http://localhost:7474/db/data/node/27530/labels
         url_split = self._url.rsplit("/", 3)
         if url_split[1] == 'node':
-            self._url = u"{}/labels".format(url_split[0])
+            self._url = u"{0}/labels".format(url_split[0])
 
     def __eq__(self, obj):
         try:
@@ -38,7 +38,7 @@ class Label(object):
         return self.__unicode__()
 
     def __unicode__(self):
-        return u"<Neo4j {}: {}>".format(self.__class__.__name__,
+        return u"<Neo4j {0}: {1}>".format(self.__class__.__name__,
                                         self._label.__repr__())
 
     def add(self, *nodes):
@@ -50,12 +50,12 @@ class Label(object):
         if kwargs:
             data = []
             for k, v in kwargs.items():
-                data.append("{}={}".format(smart_quote(k),
+                data.append("{0}={1}".format(smart_quote(k),
                                            smart_quote(json.dumps(v))))
-            data = u"?{}".format(u"&".join(data))
+            data = u"?{0}".format(u"&".join(data))
         url = self._url.replace(
             u"labels",
-            u"label/{}/nodes{}".format(smart_quote(self._label), data))
+            u"label/{0}/nodes{1}".format(smart_quote(self._label), data))
         response = Request(**self._auth).get(url)
         if response.status_code == 200:
             results_list = response.json()
@@ -81,7 +81,7 @@ class Label(object):
     def filter(self, *lookups):
         if not isinstance(lookups, (list, tuple)):
             lookups = [lookups]
-        match = u"(n:`{}`)".format(self._label.replace("`", "\\`"))
+        match = u"(n:`{0}`)".format(self._label.replace("`", "\\`"))
         returns = self._node_cls
         types = {
             "node": self._node_cls,
@@ -233,7 +233,7 @@ class NodeLabelsProxy(BaseLabelsProxy):
     def _discard(self, label=None, return_label=False, raise_error=False):
         if not label:
             label = self._labels.pop()
-        url = "{}/{}".format(self._url, smart_quote(label))
+        url = "{0}/{1}".format(self._url, smart_quote(label))
         response = Request(**self._auth).delete(url)
         if response.status_code == 204:
             _label = label
@@ -245,7 +245,7 @@ class NodeLabelsProxy(BaseLabelsProxy):
                 return _label
         elif raise_error:
             if options.SMART_ERRORS:
-                raise KeyError("'{}' not found".format(_label))
+                raise KeyError("'{0}' not found".format(_label))
             else:
                 msg = "Unable to remove label"
                 try:

@@ -83,7 +83,7 @@ class GraphDatabase(object):
             self._relationship_index = response_json['relationship_index']
             self._node = response_json['node']
             self._labels = response_json.get('labels',
-                                             "{}labels".format(self.url))
+                                             "{0}labels".format(self.url))
             self._labels_list = None
             self._node_index = response_json['node_index']
             self._reference_node = response_json.get('reference_node', None)
